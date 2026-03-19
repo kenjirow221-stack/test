@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merlia – Nail & Beauty Salon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 300;
+      color: #161410;
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ===== COLOR VARIABLES ===== */
+    :root {
+      --dark:   #161410;
+      --accent: #9b8d77;
+      --light:  #f5f2ee;
+      --gray:   #b5b5b5;
+      --white:  #ffffff;
+    }
+
+    /* ===== TYPOGRAPHY ===== */
+    h1, h2, h3, .serif {
+      font-family: 'Cormorant Garamond', 'Noto Serif JP', serif;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+
+    /* ===== HEADER / NAV ===== */
+    header {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s;
+    }
+    header.scrolled {
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    }
+    .logo {
+      font-family: 'Great Vibes', cursive; /* Blosta / スクリプト系 */
+      font-size: 28px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    header.scrolled .logo { color: var(--dark); }
+
+    nav { display: flex; gap: 32px; }
+    nav a {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      transition: color 0.3s;
+      text-transform: uppercase;
+    }
+    header.scrolled nav a { color: var(--dark); }
+    nav a:hover { color: var(--accent); }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--white);
+      transition: background 0.3s, transform 0.3s;
+    }
+    header.scrolled .hamburger span { background: var(--dark); }
+
+    /* mobile nav overlay */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(22,20,16,0.97);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+    }
+    .nav-overlay.open { display: flex; }
+    .nav-overlay a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--white);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-overlay a:hover { color: var(--accent); }
+    .nav-close {
+      position: absolute;
+      top: 24px; right: 36px;
+      font-size: 32px;
+      color: var(--white);
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      background: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        #1c1a16 0%,
+        #2a2520 40%,
+        #1a1510 100%
+      );
+    }
+    /* decorative pattern overlay */
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 30% 60%, rgba(155,141,119,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 75% 25%, rgba(155,141,119,0.10) 0%, transparent 50%);
+    }
+    .hero-content {
+      position: relative;
+      text-align: center;
+      color: var(--white);
+      padding: 0 20px;
+    }
+    .hero-sub {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .hero h1 {
+      font-family: 'Great Vibes', cursive; /* Blosta / スクリプト系 */
+      font-size: clamp(60px, 10vw, 110px);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+      margin-bottom: 28px;
+      color: var(--white);
+    }
+    .hero-desc {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.65);
+      line-height: 2;
+      margin-bottom: 48px;
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 300;
+    }
+    .hero-btn {
+      display: inline-block;
+      padding: 14px 44px;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .hero-btn:hover {
+      background: rgba(155,141,119,0.25);
+      border-color: var(--accent);
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.4);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.3);
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ===== SECTION BASE ===== */
+    section { padding: 100px 40px; }
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .section-body {
+      font-size: 14px;
+      line-height: 2.2;
+      color: #555;
+      max-width: 520px;
+    }
+    /* コンセプト本文 詩的スタイル */
+    .concept-body {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 2.6;
+      color: #555;
+      max-width: 440px;
+    }
+    .concept-body .line-accent {
+      font-size: 14px;
+      color: #333;
+      font-weight: 400;
+    }
+    .concept-body .line-em {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .concept-body .line-gap {
+      display: block;
+      margin-top: 0.6em;
+    }
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      margin: 24px 0;
+    }
+
+    /* ===== CONCEPT ===== */
+    .concept {
+      background: var(--light);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0;
+    }
+    .concept-img {
+      position: relative;
+      min-height: 520px;
+      background: linear-gradient(160deg, #2a2018 0%, #3d3020 100%);
+      overflow: hidden;
+    }
+    .concept-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 40% 50%, rgba(155,141,119,0.3) 0%, transparent 65%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cpath d='M200 50 Q280 120 260 200 Q240 280 200 350 Q160 280 140 200 Q120 120 200 50Z' fill='none' stroke='rgba(155,141,119,0.2)' stroke-width='1'/%3E%3C/svg%3E") center/80% no-repeat;
+    }
+    .concept-img-label {
+      position: absolute;
+      bottom: 32px;
+      left: 32px;
+      color: rgba(255,255,255,0.5);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+    }
+    .concept-text {
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* ===== MENU ===== */
+    .menu { background: var(--white); }
+    .menu-inner { max-width: 1100px; margin: 0 auto; }
+    .menu-header { text-align: center; margin-bottom: 64px; }
+    .menu-header .section-body { margin: 0 auto; text-align: center; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: #e8e4de;
+    }
+    .menu-card {
+      background: var(--white);
+      padding: 48px 36px;
+      text-align: center;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .menu-card:hover { background: var(--light); }
+    .menu-icon {
+      font-size: 28px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .menu-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .menu-name-jp {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .menu-desc {
+      font-size: 12px;
+      line-height: 2;
+      color: #777;
+      margin-bottom: 20px;
+    }
+    .menu-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
+    /* ===== POPULAR ===== */
+    .popular { background: var(--dark); color: var(--white); }
+    .popular .section-title { color: var(--white); }
+    .popular .section-body { color: rgba(255,255,255,0.6); }
+    .popular-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      max-width: 900px;
+      margin: 48px auto 0;
+    }
+    .popular-item {
+      border: 1px solid rgba(155,141,119,0.3);
+      padding: 36px 32px;
+      transition: border-color 0.3s;
+    }
+    .popular-item:hover { border-color: var(--accent); }
+    .popular-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: var(--accent);
+      opacity: 0.5;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .popular-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      color: var(--white);
+    }
+    .popular-sub {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .popular-desc {
+      font-size: 12px;
+      line-height: 2;
+      color: rgba(255,255,255,0.55);
+    }
+    .popular-inner { text-align: center; }
+
+    /* ===== GALLERY ===== */
+    .gallery { padding: 100px 0; background: var(--light); }
+    .gallery-header { text-align: center; margin-bottom: 48px; padding: 0 40px; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+    .gallery-item {
+      aspect-ratio: 1;
+      background: var(--dark);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transition: opacity 0.4s;
+    }
+    .gallery-item:hover::before { opacity: 0.6; }
+
+    /* colorful placeholder swatches */
+    .g1 { background: linear-gradient(135deg, #2a1f1a 0%, #4a3828 100%); }
+    .g2 { background: linear-gradient(135deg, #1a1f2a 0%, #283848 100%); }
+    .g3 { background: linear-gradient(135deg, #1a2a1a 0%, #284028 100%); }
+    .g4 { background: linear-gradient(135deg, #2a2a1a 0%, #484828 100%); }
+    .g5 { background: linear-gradient(135deg, #2a1a2a 0%, #382838 100%); }
+    .g6 { background: linear-gradient(135deg, #2a2020 0%, #483028 100%); }
+    .g7 { background: linear-gradient(135deg, #1f2a28 0%, #284840 100%); }
+    .g8 { background: linear-gradient(135deg, #281f1a 0%, #4a3820 100%); }
+
+    .gallery-item-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-item-inner span {
+      color: rgba(255,255,255,0.15);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+    }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(22,20,16,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay span {
+      color: var(--white);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+    .gallery-ig {
+      text-align: center;
+      margin-top: 40px;
+      padding: 0 40px;
+    }
+    .ig-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .ig-link:hover { color: var(--accent); }
+
+    /* ===== ACCESS ===== */
+    .access { background: var(--white); }
+    .access-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .access-map {
+      background: var(--light);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .access-map::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(200,190,175,0.3) 1px, transparent 1px) 0 0 / 30px 30px,
+        linear-gradient(0deg, rgba(200,190,175,0.3) 1px, transparent 1px) 0 0 / 30px 30px;
+    }
+    .map-placeholder {
+      position: relative;
+      text-align: center;
+      color: var(--accent);
+    }
+    .map-placeholder svg { width: 32px; height: 32px; fill: var(--accent); margin-bottom: 12px; display: block; margin-left: auto; margin-right: auto; }
+    .map-placeholder p { font-size: 12px; letter-spacing: 0.15em; }
+
+    table.info { border-collapse: collapse; width: 100%; }
+    table.info tr { border-bottom: 1px solid #eee; }
+    table.info tr:first-child { border-top: 1px solid #eee; }
+    table.info th {
+      padding: 18px 0;
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      font-weight: 400;
+      width: 90px;
+      vertical-align: top;
+    }
+    table.info td {
+      padding: 18px 0;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #444;
+    }
+    .reserve-btn {
+      display: inline-block;
+      margin-top: 36px;
+      padding: 16px 48px;
+      background: var(--dark);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      transition: background 0.3s;
+    }
+    .reserve-btn:hover { background: var(--accent); }
+
+    /* ===== VOICE / TESTIMONIAL ===== */
+    .voice { background: var(--light); }
+    .voice-inner { max-width: 1000px; margin: 0 auto; }
+    .voice-header { text-align: center; margin-bottom: 56px; }
+    .voice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .voice-card {
+      background: var(--white);
+      padding: 36px 28px;
+    }
+    .stars {
+      color: var(--accent);
+      font-size: 16px;
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+    }
+    .voice-text {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 13px;
+      line-height: 2;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .voice-author {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      color: var(--white);
+      padding: 64px 40px 32px;
+    }
+    .footer-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-logo {
+      font-family: 'Great Vibes', cursive; /* Blosta / スクリプト系 */
+      font-size: 34px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .footer-tagline {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .footer-desc {
+      font-size: 12px;
+      line-height: 2;
+      color: rgba(255,255,255,0.5);
+    }
+    .footer-col h4 {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+    .footer-col ul li a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-col ul li a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      header { padding: 16px 24px; }
+      nav { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 72px 24px; }
+      .concept { grid-template-columns: 1fr; }
+      .concept-img { min-height: 300px; }
+      .concept-text { padding: 48px 32px; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .popular-grid { grid-template-columns: 1fr; gap: 16px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .access-inner { grid-template-columns: 1fr; gap: 40px; }
+      .voice-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 38px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .popular-inner { padding: 0 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="header">
+  <a href="#" class="logo">Merlia</a>
+  <nav>
+    <a href="#concept">Concept</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#access">Access</a>
+    <a href="#access">Reserve</a>
+  </nav>
+  <button class="hamburger" id="hamburger" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- mobile nav -->
+<div class="nav-overlay" id="navOverlay">
+  <button class="nav-close" id="navClose">×</button>
+  <a href="#concept" class="nav-link">Concept</a>
+  <a href="#menu" class="nav-link">Menu</a>
+  <a href="#gallery" class="nav-link">Gallery</a>
+  <a href="#access" class="nav-link">Access</a>
+  <a href="#access" class="nav-link">Reserve</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-sub">Nail &amp; Beauty Salon</span>
+    <h1>Merlia</h1>
+    <p class="hero-desc">
+      見られる肌だけが美しさではない<br>
+      内から満たされた人だけが持つ<br>
+      静かな輝きがある
+    </p>
+    <a href="#menu" class="hero-btn">Menu を見る</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ===== CONCEPT ===== -->
+<section class="concept" id="concept">
+  <div class="concept-img">
+    <span class="concept-img-label">— Interior</span>
+  </div>
+  <div class="concept-text">
+    <span class="section-label">Concept</span>
+    <h2 class="section-title">
+      誰にも見えない場所を、<br>丁寧に整える
+    </h2>
+    <div class="divider"></div>
+    <p class="concept-body">
+      <span class="line-accent">やらなくてもいい</span><br>
+      <span class="line-em">でもやってる人は　違う</span>
+      <span class="line-gap"></span>
+      脱毛は細部への意識を変える<br>
+      ピーリングは肌本来の力を再生させる<br>
+      フェムケアは見えない場所から肌を変える
+      <span class="line-gap"></span>
+      外側だけを磨いても<br>
+      届かない美しさがある
+      <span class="line-gap"></span>
+      どれもなくても困らない<br>
+      <span class="line-accent">でも知ってしまったら手放せない</span>
+    </p>
+  </div>
+</section>
+
+<!-- ===== MENU ===== -->
+<section class="menu" id="menu">
+  <div class="menu-inner">
+    <div class="menu-header">
+      <span class="section-label">Menu</span>
+      <h2 class="section-title">人気メニュー</h2>
+      <div class="divider" style="margin: 20px auto;"></div>
+      <p class="section-body">爪・まつ毛・肌に寄り添うケアメニューをご用意しています。</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <span class="menu-icon">💅</span>
+        <div class="menu-name">Nail Art</div>
+        <span class="menu-name-jp">ネイルアート</span>
+        <p class="menu-desc">
+          季節のトレンドを取り入れた<br>
+          似合わせデザインをご提案。<br>
+          自爪を傷めにくいジェルネイル。
+        </p>
+        <div class="menu-price">¥ 8,800 〜</div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">✨</span>
+        <div class="menu-name">Eyelash</div>
+        <span class="menu-name-jp">まつ毛エクステ・パーマ</span>
+        <p class="menu-desc">
+          自まつ毛に馴染む次世代パーマと<br>
+          繊細なエクステの組み合わせで<br>
+          瞳を自然に印象づけます。
+        </p>
+        <div class="menu-price">¥ 6,600 〜</div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🌿</span>
+        <div class="menu-name">Facial</div>
+        <span class="menu-name-jp">フェイシャルケア</span>
+        <p class="menu-desc">
+          ハンドマッサージと光照射を<br>
+          組み合わせたリフトアップコース。<br>
+          肌本来の力を引き出します。
+        </p>
+        <div class="menu-price">¥ 9,900 〜</div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">💆</span>
+        <div class="menu-name">Head Spa</div>
+        <span class="menu-name-jp">ヘッドスパ</span>
+        <p class="menu-desc">
+          頭皮から全身の緊張をほぐす<br>
+          極上のリラクゼーション。<br>
+          ストレス解消にも効果的。
+        </p>
+        <div class="menu-price">¥ 5,500 〜</div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🦶</span>
+        <div class="menu-name">Foot Care</div>
+        <span class="menu-name-jp">フットケア</span>
+        <p class="menu-desc">
+          角質ケアからネイルまで<br>
+          足元を美しく整えます。<br>
+          リラックス効果も抜群。
+        </p>
+        <div class="menu-price">¥ 4,400 〜</div>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🌸</span>
+        <div class="menu-name">Treatment</div>
+        <span class="menu-name-jp">ボディトリートメント</span>
+        <p class="menu-desc">
+          オールハンドによる心地よい<br>
+          施術で深いリラクゼーション。<br>
+          疲れた体を癒します。
+        </p>
+        <div class="menu-price">¥ 7,700 〜</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== POPULAR ===== -->
+<section class="popular">
+  <div class="popular-inner">
+    <span class="section-label">Feature</span>
+    <h2 class="section-title">当サロンの特徴</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="popular-grid">
+    <div class="popular-item">
+      <div class="popular-num">01</div>
+      <div class="popular-title">Personalized Care</div>
+      <div class="popular-sub">完全個室・マンツーマン施術</div>
+      <p class="popular-desc">
+        担当スタッフが最初から最後まで専任でサポート。プライベートな空間で、ゆっくりとご相談いただけます。
+      </p>
+    </div>
+    <div class="popular-item">
+      <div class="popular-num">02</div>
+      <div class="popular-title">Gentle Formula</div>
+      <div class="popular-sub">低ダメージ・高品質な素材</div>
+      <p class="popular-desc">
+        爪・肌・まつ毛への負担を極力抑えた厳選素材を使用。長く続けられる美容を大切にしています。
+      </p>
+    </div>
+    <div class="popular-item">
+      <div class="popular-num">03</div>
+      <div class="popular-title">Trend Design</div>
+      <div class="popular-sub">毎月更新のデザインサンプル</div>
+      <p class="popular-desc">
+        国内外のトレンドを取り入れたデザインを毎月更新。季節感あふれる提案で、いつも新鮮な仕上がりを。
+      </p>
+    </div>
+    <div class="popular-item">
+      <div class="popular-num">04</div>
+      <div class="popular-title">Online Reserve</div>
+      <div class="popular-sub">24時間WEB予約対応</div>
+      <p class="popular-desc">
+        スマートフォンから24時間いつでも予約可能。お忙しい方にも気軽にご利用いただけます。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header">
+    <span class="section-label">Gallery</span>
+    <h2 class="section-title">施術事例</h2>
+    <div class="divider" style="margin: 20px auto;"></div>
+    <p class="section-body" style="margin: 0 auto; text-align: center;">
+      Instagramでも最新の作品をご覧いただけます。
+    </p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item g1">
+      <div class="gallery-item-inner"><span>N</span></div>
+      <div class="gallery-overlay"><span>Nail Art</span></div>
+    </div>
+    <div class="gallery-item g2">
+      <div class="gallery-item-inner"><span>E</span></div>
+      <div class="gallery-overlay"><span>Eyelash</span></div>
+    </div>
+    <div class="gallery-item g3">
+      <div class="gallery-item-inner"><span>F</span></div>
+      <div class="gallery-overlay"><span>Facial</span></div>
+    </div>
+    <div class="gallery-item g4">
+      <div class="gallery-item-inner"><span>N</span></div>
+      <div class="gallery-overlay"><span>Nail Art</span></div>
+    </div>
+    <div class="gallery-item g5">
+      <div class="gallery-item-inner"><span>H</span></div>
+      <div class="gallery-overlay"><span>Head Spa</span></div>
+    </div>
+    <div class="gallery-item g6">
+      <div class="gallery-item-inner"><span>N</span></div>
+      <div class="gallery-overlay"><span>Nail Art</span></div>
+    </div>
+    <div class="gallery-item g7">
+      <div class="gallery-item-inner"><span>E</span></div>
+      <div class="gallery-overlay"><span>Eyelash</span></div>
+    </div>
+    <div class="gallery-item g8">
+      <div class="gallery-item-inner"><span>T</span></div>
+      <div class="gallery-overlay"><span>Treatment</span></div>
+    </div>
+  </div>
+  <div class="gallery-ig">
+    <a href="#" class="ig-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+      </svg>
+      @merlia.kcz
+    </a>
+  </div>
+</section>
+
+<!-- ===== VOICE ===== -->
+<section class="voice">
+  <div class="voice-inner">
+    <div class="voice-header">
+      <span class="section-label">Voice</span>
+      <h2 class="section-title">お客様の声</h2>
+      <div class="divider" style="margin: 20px auto;"></div>
+    </div>
+    <div class="voice-grid">
+      <div class="voice-card">
+        <div class="stars">★★★★★</div>
+        <p class="voice-text">
+          初めて伺いましたが、完全個室でとてもリラックスできました。スタッフの方が丁寧にデザインを提案してくださり、仕上がりも大満足です。
+        </p>
+        <div class="voice-author">— 30代 女性</div>
+      </div>
+      <div class="voice-card">
+        <div class="stars">★★★★★</div>
+        <p class="voice-text">
+          まつ毛パーマとネイルを同時にお願いしました。両方とも丁寧で、自まつ毛への負担も少なく感じています。また来ます！
+        </p>
+        <div class="voice-author">— 20代 女性</div>
+      </div>
+      <div class="voice-card">
+        <div class="stars">★★★★★</div>
+        <p class="voice-text">
+          ヘッドスパが特にお気に入りです。施術後は頭がスッキリして、肩こりまで楽になりました。定期的に通っています。
+        </p>
+        <div class="voice-author">— 40代 女性</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACCESS ===== -->
+<section class="access" id="access">
+  <div class="access-inner">
+    <div>
+      <span class="section-label">Access &amp; Reserve</span>
+      <h2 class="section-title">アクセス・ご予約</h2>
+      <div class="divider"></div>
+      <table class="info">
+        <tr>
+          <th>サロン名</th>
+          <td>Merlia</td>
+        </tr>
+        <tr>
+          <th>住所</th>
+          <td>〒781-0821<br>高知市桜井町1-3-36 LB-1 2F<br>RUELLE内</td>
+        </tr>
+        <tr>
+          <th>TEL</th>
+          <td>090-2825-8969</td>
+        </tr>
+        <tr>
+          <th>営業時間</th>
+          <td>09:30 – 19:00</td>
+        </tr>
+        <tr>
+          <th>定休日</th>
+          <td>不定休</td>
+        </tr>
+        <tr>
+          <th>アクセス</th>
+          <td>菜園場町駅から徒歩3分</td>
+        </tr>
+      </table>
+      <a href="#" class="reserve-btn">WEB予約はこちら</a>
+    </div>
+    <div>
+      <div class="access-map">
+        <div class="map-placeholder">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <p>地図が入ります</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Merlia</div>
+      <div class="footer-tagline">Nail &amp; Beauty Salon</div>
+      <p class="footer-desc">
+        爪・まつ毛・肌へのやさしいケアで、<br>
+        長く美しさを楽しめるサロンです。<br>
+        ゆっくりとしたひとときをどうぞ。
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#">Nail Art</a></li>
+        <li><a href="#">Eyelash</a></li>
+        <li><a href="#">Facial</a></li>
+        <li><a href="#">Head Spa</a></li>
+        <li><a href="#">Foot Care</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Info</h4>
+      <ul>
+        <li><a href="#">Concept</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Access</a></li>
+        <li><a href="#">WEB予約</a></li>
+        <li><a href="#">採用情報</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Merlia. All Rights Reserved.</p>
+    <p>Instagram: @merlia.kcz</p>
+  </div>
+</footer>
+
+<!-- ===== JS ===== -->
+<script>
+  // Header scroll effect
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile nav
+  const hamburger = document.getElementById('hamburger');
+  const navOverlay = document.getElementById('navOverlay');
+  const navClose = document.getElementById('navClose');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  hamburger.addEventListener('click', () => {
+    navOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  const closeNav = () => {
+    navOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  navClose.addEventListener('click', closeNav);
+  navLinks.forEach(l => l.addEventListener('click', closeNav));
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.menu-card, .popular-item, .voice-card, .gallery-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
